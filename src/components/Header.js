@@ -10,10 +10,9 @@ export default class Header extends Component {
 
 
   render() {
-      console.log(this.state)
     return (
       <header>
-        <span>This is {this.state.name}'s header</span>
+        <span>This is {this.props.favPokemon}'s header</span>
       </header>
     );
   }

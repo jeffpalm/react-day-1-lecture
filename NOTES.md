@@ -73,3 +73,106 @@ export default FuncComponent;
 
 ## Unidirectional Data Flow
 - React is designed for data to flow unidirectionally. This means the data is intended to flow in one direction. More specifically, data should flow from the top of the component tree downward. The only way you should change data from the bottom up is by passing down a function that originates from the top.
+
+# React Day 2
+## Passing Props
+- When passing props from component to component, we pass them directly into the components tag
+```JSX
+import React from 'react';
+import ChildComponent from './ChildComponent';
+ 
+class ParentComponent extends Component {
+    constructor(){
+        super();
+ 
+        this.state = {
+            name: 'Tayte'
+        }
+    }
+ 
+    render(){
+        return (
+            <div>
+                <ChildComponent myName={this.state.name}/>
+            </div>
+        )
+    }
+}
+ 
+export default ParentComponent
+```
+## Receiving Props: Functional
+- Receiving Props is different depending on whether the component receiving props is a class or functional component. Accessing props from a functional component looks like this:
+```JSX
+import React from 'react';
+ 
+const ChildComponent = (props) => {
+    return (
+        <h1>My name is: {props.myName}</h1>
+    )
+};
+ 
+export default ChildComponent;
+```
+
+
+## Receiving Props: Class
+- When receiving props in a class component we need to utilize context. Note that the context of 'this' in a class component is the component itself.
+```JSX
+import React, {Component} from 'react';
+ 
+class ChildComponent extends Component {
+    render(){
+        return (
+            <h1>My name is: {this.props.myName}
+        )
+    }
+}
+ 
+export default ChildComponent;
+```
+
+## Passing Methods
+- When passing methods as props, we need to bind the method to its component so it maintains the proper context. Once bound, the method an be passed like any other prop
+```JSX
+constructor(){
+        super();
+ 
+        this.state = {
+            name: 'Matt'
+        }
+ 
+        this.changeName = this.changeName.bind(this);
+    }
+ 
+    changeName(){
+        this.setState({
+            name: 'Tayte V2'
+        })
+    }
+	
+render(){
+  return (
+    <div>
+      <ChildComponent 
+        myName={this.state.name} 
+        changeName={this.changeName}/>
+    </div>
+  )
+}
+ 
+class ChildComponent extends Component {
+  render(){
+    return (
+      <div>
+        <h1>My name is: {this.props.myName}</h1>
+          <button onClick={this.props.changeName}>Update Name</button>
+      </div>
+    )
+  }
+}
+ 
+export default ChildComponent;
+
+  ```
+
